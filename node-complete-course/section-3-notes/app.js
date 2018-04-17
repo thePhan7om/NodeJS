@@ -1,23 +1,31 @@
-console.log('Starting App.js');
+console.log("Starting App.js");
 
-const fs = require('fs');
-const os = require('os');
-const _ = require('lodash');
+const fs = require("fs");
+const os = require("os");
+const _ = require("lodash");
+const argv = require("yargs").argv;
 
-const notes = require('./notes');
 
-let result = notes.addNote();
-console.log(`${result}`)
+const notes = require("./notes");
 
-result = notes.add(5,6);
-console.log(`should be 11 === ${result}`);
 
-let dups = [1,2,3,4,5,4,3,7,8];
-let noDups = _.uniq(dups);
-console.log(noDups);cd ..
+let command = process.argv[2];
+
+if (command === "add") {
+    notes.addNote(argv.title,argv.body);
+}
+else if (command === "delete") {
+    notes.deleteNote(argv.title);
     
-//
-//
-// let user = os.userInfo().username;
-//
-// fs.appendFileSync('greetings.txt', `Hello ${user} You are ${notes.age}`  );
+}
+else if (command === "read") {
+    notes.readNote(argv.title);
+    
+}
+else if (command === "list") {
+    notes.getAll();
+    
+} else {
+    console.log("command not found");
+    
+}
