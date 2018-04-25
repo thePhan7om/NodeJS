@@ -1,22 +1,54 @@
 console.log('Starting notes.js');
+const fs = require('fs');
 
-var addNote = (title, body) => {
-console.log("Add Node", title, body);
+var fetchNotes = () => {
+    try {
+        var notesString = fs.readFileSync('notes-data.json');
+        return JSON.parse(notesString);
+    }
+    catch (e) {
+        return [];
+    }
 };
 
-var getAll = () =>{
+var saveNotes = (notes) => {
+    fs.writeFileSync('notes-data.json', JSON.stringify(notes));
+}
+
+var addNote = (title, body) => {
+    var notes = fetchNotes();
+    var note = {
+        title, body
+    };
+    
+    var duplicateNotes = notes.filter((note) => note.title === title);
+    if (duplicateNotes.length === 0) {
+        notes.push(note);
+        saveNotes(notes);
+        return note;
+    }
+    
+    
+};
+
+var getAll = () => {
     console.log("Getting all notes");
 }
 
-var deleteNote = (title) =>{
-    console.log("Deleting Note:", title);
+var deleteNote = (title) => {
+    var notes = fetchNotes();
+    var duplicateNotes = notes.filter((note) => note.title !== title)
+    saveNotes(duplicateNotes);
+    return notes.length === duplicateNotes.length;
 }
 
-var readNote = (title) =>{
-    console.log("Reading Note:", title);
-}
+var readNote = (title) => {
+    var notes = fetchNotes();
+    var duplicateNotes = notes.filter((note) => note.title === title)
+    return duplicateNotes[0];
+};
 
 
 module.exports = {
-    addNote,getAll,deleteNote,readNote,
+    addNote, getAll, deleteNote, readNote,
 }
