@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
+const fs = require('fs');
 const hbs = require ('hbs');
 
 hbs.registerPartials(__dirname+'/views/partials');
 app.set('view engine', 'hbs');
 
-app.use(express.static(__dirname + '/public/html'))
 
 hbs.registerHelper('getCurrentYear', ()=>{
     return new Date().getFullYear();
@@ -19,6 +19,25 @@ hbs.registerHelper('getAuthor', ()=> {
 hbs.registerHelper('screamIt', (text)=>{
     return text.toUpperCase();
 })
+
+app.use((request,response,next) => {
+    let now = new Date().toString();
+    let log = `${now} - ${request.method} - ${request.url}`;
+    fs.appendFile('server.log',log+'\n', (err) =>{
+        if (err){
+            console.log("Error");
+        }
+    });
+    console.log(`${now} - ${request.method} - ${request.url}`)
+    next();
+});
+
+//
+// app.use((request,response,next) => {
+//    response.render('maintance.hbs');
+// });
+
+app.use(express.static(__dirname + '/public/html'))
 
 
 app.get('/', (request,response) => {
