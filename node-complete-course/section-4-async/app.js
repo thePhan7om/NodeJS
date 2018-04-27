@@ -16,23 +16,11 @@ const argv = yargs.options({
     .alias('help', 'h')
     .argv;
 
-
-geo.geoAddress(argv.address, (errorMessage, result) => {
-    if (errorMessage) {
-        console.log(errorMessage);
-    } else {
-        console.log(JSON.stringify(result, undefined, 4));
-        weather.getWeather(result, (errorMessage, weatherReport) => {
-            if (errorMessage) {
-                console.log(errorMessage);
-            } else {
-                console.log(JSON.stringify(weatherReport, undefined, 4));
-            }
-            
-        });
-        
-    }
+geo.geoAddress(argv.address).then((result) => {
+    return (weather.getWeather(result));
+}).then((forcast) => {
+    console.log(JSON.stringify(forcast, undefined, 4));
+}).catch((errorMessage) => {
+    console.log(errorMessage);
 });
-
-//''
 
