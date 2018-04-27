@@ -1,7 +1,8 @@
 console.log("Starting App.js");
 
 const yargs = require("yargs");
-const geo = require("./geo")
+const geo = require("./geo");
+const weather = require("./weather");
 
 const argv = yargs.options({
     a: {
@@ -21,6 +22,17 @@ geo.geoAddress(argv.address, (errorMessage, result) => {
         console.log(errorMessage);
     } else {
         console.log(JSON.stringify(result, undefined, 4));
-    
+        weather.getWeather(result, (errorMessage, weatherReport) => {
+            if (errorMessage) {
+                console.log(errorMessage);
+            } else {
+                console.log(JSON.stringify(weatherReport, undefined, 4));
+            }
+            
+        });
+        
     }
 });
+
+//''
+
