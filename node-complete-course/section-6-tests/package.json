@@ -1,0 +1,17 @@
+{
+  "name": "section-6-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha **/*.test.js "
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "expect": "^1.20.2",
+    "express": "^4.16.3",
+    "mocha": "^5.1.1",
+    "supertest": "^3.0.0"
+  }
+}
