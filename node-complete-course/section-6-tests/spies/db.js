@@ -1,6 +1,6 @@
 
 
-modele.exports.saveUser = (user) =>{
+module.exports.saveUser = (user) =>{
 console.log('Saving user', user);
 
 }
