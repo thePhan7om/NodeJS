@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const fs = require('fs');
 const hbs = require ('hbs');
-
+const port = process.env.PORT || 8080;
 hbs.registerPartials(__dirname+'/views/partials');
 app.set('view engine', 'hbs');
 
@@ -59,6 +59,6 @@ app.get('/bad', (request, response) => {
         errorMessage:"Error handling request"
     });
 })
-app.listen(8080, () => {
-    console.log("Server Running on port 8080");
+app.listen(port, () => {
+    console.log(`Server Running on port ${port}`);
 });
